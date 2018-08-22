@@ -31,29 +31,29 @@ public class CreateServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String _token = (String)request.getParameter("_token");
-		if(_token != null && _token.equals(request.getSession().getId()));
-		EntityManager em = DBUtil.createEntityManager();
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String _token = (String)request.getParameter("_token");
+        if(_token != null && _token.equals(request.getSession().getId())) {
+            EntityManager em = DBUtil.createEntityManager();
 
-    		Message m = new Message();
+            Message m = new Message();
 
-    	    String title = request.getParameter("title");
-    	    m.setContent(title);
+            String title = request.getParameter("title");
+            m.setTitle(title);
 
-    		String content = request.getParameter("content");
-    		m.setContent(content);
+            String content = request.getParameter("content");
+            m.setContent(content);
 
-    		Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-    		m.setCreated_at(currentTime);
-    		m.setUpdated_at(currentTime);
+            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+            m.setCreated_at(currentTime);
+            m.setUpdated_at(currentTime);
 
-    		em.getTransaction().begin();
-    		em.persist(m);
-    		em.getTransaction().commit();
-    		em.close();
+            em.getTransaction().begin();
+            em.persist(m);
+            em.getTransaction().commit();
+            em.close();
 
-    		response.sendRedirect(request.getContextPath() + "/index");
-	}
-
+            response.sendRedirect(request.getContextPath() + "/index");
+        }
+    }
 }
